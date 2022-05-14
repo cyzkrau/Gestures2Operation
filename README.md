@@ -1,2 +1,7 @@
 # Gestures2Operation
-Computer Graphics final project: convert gestures to keyboard operation
+
+It's our Computer Graphics final project. 
+
+We want to convert gestures(from camera) to keyboard operation. 
+
+Hello world. 
