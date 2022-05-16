@@ -47,9 +47,9 @@ Its data is like this.(the data: hand).
 
 ​	And its map is (in the 'lmList:'), where its axis is [x,y,z], and x is left to right; y is up to the down, and z is inside screen out.
 
-![](./img/20210508090815818.png)
+![](./img/data-info.png)
 
-![](./img/2022-05-16 15-26-59 的屏幕截图.png)
+![](./img/example.png)
 
 ### TODO:
 
