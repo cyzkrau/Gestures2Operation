@@ -33,7 +33,7 @@ class gesture_monitor:
         self.img = cv2.flip(self.img, 1)
         self.hands, self.img = self.detector.findHands(self.img,
                                                        flipType=False)
-        hand = self.hands[0]['lmList']
+        hand = self.hands[0]['lmList']  #need 'try catch' here
         if hand[0][0] > hand[12][0]:
             self.physical_condition['IsLeft'] = True
             self.physical_condition['IsRight'] = False
@@ -49,6 +49,7 @@ class gesture_monitor:
             self.physical_condition['IsUp'] = True
 
     def show(self):
+        print(self.hands)
         cv2.imshow('hands', self.img)
 
     def is_left(self):
