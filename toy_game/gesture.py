@@ -23,7 +23,8 @@ class gesture_monitor:
             'IsLeft': False,
             'IsRight': False,
             'IsUp': False,
-            'IsDown': False
+            'IsDown': False,
+            'Is1&2': False
         }
 
     def update(self):
@@ -47,6 +48,10 @@ class gesture_monitor:
         elif hand[9][1] > hand[12][1]:
             self.physical_condition['IsDown'] = False
             self.physical_condition['IsUp'] = True
+        if abs(hand[8][0] - hand[12][0]) + abs(hand[8][1] - hand[12][1]):
+            self.physical_condition['Is1&2'] = True
+        else:
+            self.physical_condition['Is1&2'] = False
 
     def show(self):
         cv2.imshow('hands', self.img)
@@ -62,6 +67,9 @@ class gesture_monitor:
 
     def is_down(self):
         return self.physical_condition['IsDown']
+
+    def is_push(self):
+        return self.physical_condition['Is1a2']
 
     def quit(self):
         self.cap.release()

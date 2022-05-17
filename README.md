@@ -56,3 +56,13 @@ Its data is like this.(the data: hand).
 1. give a compact GUI interaction for  games, presentations, 3d interaction, desktop control, etc.
 
 1. Train the data from finger into gesture recongnition, with utility of mathematical knowledges like discrete curvature.(离散曲率).
+
+
+### Depdence:
+
+Linux:
+pyautogui: 
+```
+NOTE: You must install tkinter on Linux to use MouseInfo. Run the following: sudo apt-get install python3-tk python3-dev
+
+```
