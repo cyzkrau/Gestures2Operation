@@ -43,18 +43,22 @@ class Gesture_monitor:
         elif hand[9][1] > hand[12][1]:
             self.phy_cond['IsDown'] = False
             self.phy_cond['IsUp'] = True
-        print(hand[8], hand[12])
+        #print(hand[8], hand[12])
         #print(
-        #    abs(hand[8][0] - hand[12][0]) < 30,
-        #    abs(hand[8][1] - hand[12][1]) < 30)
+        #    abs(hand[8][0] - hand[12][0]) < 50,
+        #    abs(hand[8][1] - hand[12][1]) < 50,
+        #    abs(hand[8][2] - hand[12][2]) < 50)
         is1a2 = abs(hand[8][0] - hand[12][0]) < 50 & abs(
             hand[8][1] - hand[12][1]) < 50 & abs(hand[8][2] - hand[12][2]) < 50
         print(is1a2)
         if abs(hand[8][0] -
                hand[12][0]) < 40 & abs(hand[8][1] - hand[12][1]) < 40 & abs(
                    hand[8][2] - hand[12][2]) < 40:
+            print("set true")
             self.phy_cond['Is1a2'] = True
-        else:
+        elif abs(hand[8][0] -
+                 hand[12][0]) > 40 | abs(hand[8][1] - hand[12][1]) > 40 | abs(
+                     hand[8][2] - hand[12][2]) > 40:
             self.phy_cond['Is1a2'] = False
 
     def update(self):
