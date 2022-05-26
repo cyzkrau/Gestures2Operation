@@ -3,11 +3,12 @@ from HandDetector import HandDetector
 
 
 class HandAnalysis:
-    def __init__(self, SpeedNum=2):
-        self.Detector = HandDetector(maxHands=1)
+    def __init__(self, SpeedNum=10):
+        self.Detector = HandDetector(maxHands=2)
         self.SpeedNum = SpeedNum
         self.CacheHands, self.state = [[], []], ['None', 'None']  # 0 left 1 right
         self.SpeedWeight = np.hstack([-np.ones(int(SpeedNum/2)), np.ones(int(SpeedNum/2))])
+        self.UpOrDown = [[0]*5, [0]*5]
 
     def update(self, image):
         allHands, img = self.Detector.findHands(image, flipType=False)
@@ -17,8 +18,10 @@ class HandAnalysis:
             p = hand['lmList']
             if hand['type'] == 'Right' and self.CacheHands[1][-1] is None:
                 self.CacheHands[1][-1] = p
+                self.UpOrDown[1] = self.Detector.fingersUp(hand)
             if hand['type'] == 'Left' and self.CacheHands[0][-1] is None:
                 self.CacheHands[0][-1] = p
+                self.UpOrDown[0] = self.Detector.fingersUp(hand)
         for hd in self.CacheHands:
             if len(hd) > self.SpeedNum:
                 del(hd[0])
