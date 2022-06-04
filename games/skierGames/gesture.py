@@ -1,12 +1,10 @@
 #!/usr/bin/python3
-from lib2to3.pytree import type_repr
-from opcode import hasname
 import cv2
 from cvzone.HandTrackingModule import HandDetector
 import time
 
 
-class gesture_monitor:
+class GestureMonitor:
 
     def __init__(self, width=1280, height=720):
         self.cap = cv2.VideoCapture(0)

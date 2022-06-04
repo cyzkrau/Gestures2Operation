@@ -60,9 +60,13 @@ def create_map(start, end):
         location = [col * 64 + 20, row * 64 + 20]
         if not (location in locations):
             locations.append(location)
-            type = random.choice(["tree", "flag"])
+            type = random.choice([
+                "tree", "tree", "tree", "tree", "flag", "flag", "flag", "flag",
+                "ball"
+            ])
             if type == "tree": img = "./bg_img/skier_tree.png"
             elif type == "flag": img = "./bg_img/skier_flag.png"
+            elif type == "ball": img = "./bg_img/skier_ball.png"
             obstacle = ObstacleClass(img, location, type)
             obstacles.add(obstacle)
     return obstacles
@@ -73,6 +77,7 @@ def animate():
     pygame.display.update(obstacles.draw(screen))
     screen.blit(skier.image, skier.rect)
     screen.blit(score_text, [10, 10])
+    screen.blit(life_text, [10, 50])
     pygame.display.flip()
 
 
@@ -85,75 +90,115 @@ def updateObstacleGroup(map0, map1):
     return obstacles
 
 
-pygame.init()
-pygame.mixer.init()
-pygame.mixer.music.load("./bg_music/bg_music.mp3")
-pygame.mixer.music.set_volume(0.3)
-pygame.mixer.music.play(-1)
-screen = pygame.display.set_mode([640, 640])
-clock = pygame.time.Clock()
-skier = SkierClass()
-speed = [0, 6]
-map_position = 0
-points = 0
-map0 = create_map(20, 29)
-map1 = create_map(10, 19)
-activeMap = 0
+def game_over():
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    print("EXIT GAME")
+                    exit()
+                elif event.key == pygame.K_RIGHT:
+                    print("PLAY AGIAIN")
 
-obstacles = updateObstacleGroup(map0, map1)
+        game_over_text = font.render("Game Over!", 1, (0, 0, 0))
+        hint_play_text = font.render("Press RIGHT to Play Again", 1, (0, 0, 0))
+        hint_exit_text = font.render("Press LEFT to Exit", 1, (0, 0, 0))
+        pygame.display.update(obstacles.draw(screen))
+        screen.blit(game_over_text, [200, 250])
+        screen.blit(hint_play_text, [100, 290])
+        screen.blit(hint_exit_text, [175, 330])
+        pygame.display.flip()
 
-font = pygame.font.Font(None, 50)
 
-dect = gesture.gesture_monitor()
+if __name__ == "__main__":
+    pygame.init()
+    ## setter need to be added.
+    pygame.mixer.init()
+    pygame.mixer.music.load("./bg_music/bg_music_jp.flac")
+    pygame.mixer.music.set_volume(0.3)
+    pygame.mixer.music.play(-1)
 
-while True:
-    clock.tick(30)
-    dect.update()
-    if dect.is_left():
-        speed = skier.turn(-1)
-    elif dect.is_right():
-        speed = skier.turn(1)
-    '''    
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT: sys.exit()
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT:
-                speed = skier.turn(-1)
-            elif event.key == pygame.K_RIGHT:
-                speed = skier.turn(1)
-    '''
-    skier.move(speed)
-    map_position += speed[1]
+    screen = pygame.display.set_mode([640, 640])
+    clock = pygame.time.Clock()
+    skier = SkierClass()
+    speed = [0, 6]
+    map_position = 0
+    points = 0
+    life = 1
+    map0 = create_map(20, 29)
+    map1 = create_map(10, 19)
+    activeMap = 0
 
-    if map_position >= 640 and activeMap == 0:
-        activeMap = 1
-        map0 = create_map(20, 29)
-        obstacles = updateObstacleGroup(map0, map1)
-    if map_position >= 1280 and activeMap == 1:
-        activeMap = 0
-        for ob in map0:
-            ob.location[1] = ob.location[1] - 1280
-        map_position = map_position - 1280
-        map1 = create_map(10, 19)
-        obstacles = updateObstacleGroup(map0, map1)
+    obstacles = updateObstacleGroup(map0, map1)
 
-    for obstacle in obstacles:
-        obstacle.scroll(map_position)
+    font = pygame.font.Font(None, 50)
 
-    hit = pygame.sprite.spritecollide(skier, obstacles, False)
-    if hit:
-        if hit[0].type == "tree" and not hit[0].passed:
-            points = points - 100
-            skier.image = pygame.image.load("./bg_img/skier_crash.png")
-            animate()
-            pygame.time.delay(1000)
-            skier.image = pygame.image.load("./bg_img/skier_down.png")
-            skier.angle = 0
-            speed = [0, 6]
-            hit[0].passed = True
-        elif hit[0].type == "flag" and not hit[0].passed:
-            points += 10
-            obstacles.remove(hit[0])
+    #hand_detector = gesture.GestureMonitor()
 
-    score_text = font.render("Score: " + str(points), 1, (0, 0, 0))
-    animate()
+    while True:
+        clock.tick(30)
+        '''
+        hand_detector.update()
+        if hand_detector.is_left():
+            speed = skier.turn(-1)
+        elif hand_detector.is_right():
+            speed = skier.turn(1)
+        '''
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_LEFT:
+                    speed = skier.turn(-1)
+                elif event.key == pygame.K_RIGHT:
+                    speed = skier.turn(1)
+
+        skier.move(speed)
+        map_position += speed[1]
+
+        if map_position >= 640 and activeMap == 0:
+            activeMap = 1
+            map0 = create_map(20, 29)
+            obstacles = updateObstacleGroup(map0, map1)
+        if map_position >= 1280 and activeMap == 1:
+            activeMap = 0
+            for ob in map0:
+                ob.location[1] = ob.location[1] - 1280
+            map_position = map_position - 1280
+            map1 = create_map(10, 19)
+            obstacles = updateObstacleGroup(map0, map1)
+
+        for obstacle in obstacles:
+            obstacle.scroll(map_position)
+
+        hit = pygame.sprite.spritecollide(skier, obstacles, False)
+        if hit:
+            if hit[0].type == "tree" and not hit[0].passed:
+                life -= 1
+                skier.image = pygame.image.load("./bg_img/skier_crash.png")
+                animate()
+                pygame.time.delay(1000)
+                skier.image = pygame.image.load("./bg_img/skier_down.png")
+                skier.angle = 0
+                speed = [0, 6]
+                hit[0].passed = True
+            elif hit[0].type == "flag" and not hit[0].passed:
+                points += 10
+                obstacles.remove(hit[0])
+            elif hit[0].type == "ball" and not hit[0].passed:
+                points += 30
+                life += 1
+                obstacles.remove(hit[0])
+
+        score_text = font.render("Score: " + str(points), 1, (0, 0, 0))
+        life_text = font.render("Life: " + str(life), 1, (0, 0, 0))
+
+        if life == 0:
+            break
+        points += 0.03125
+
+        animate()
+
+    pygame.mixer.music.set_volume(0)
+
+    game_over()
