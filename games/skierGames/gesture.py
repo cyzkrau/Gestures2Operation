@@ -32,24 +32,30 @@ class GestureMonitor:
         self.img = cv2.flip(self.img, 1)
         self.hands, self.img = self.detector.findHands(self.img,
                                                        flipType=False)
-        hand = self.hands[0]['lmList']
-        if hand[0][0] > hand[12][0]:
-            self.physical_condition['IsLeft'] = True
-            self.physical_condition['IsRight'] = False
-        elif hand[0][0] < hand[12][0]:
-            self.physical_condition['IsLeft'] = False
-            self.physical_condition['IsRight'] = True
+        try:
+            hand = self.hands[0]['lmList']
+            if hand[0][0] - hand[12][0] > 5:
+                self.physical_condition['IsLeft'] = True
+                self.physical_condition['IsRight'] = False
+            elif hand[0][0] - hand[12][0] < -5:
+                self.physical_condition['IsLeft'] = False
+                self.physical_condition['IsRight'] = True
+            else:
+                self.physical_condition['IsLeft'] = False
+                self.physical_condition['IsRight'] = False
 
-        if hand[9][1] < hand[12][1]:
-            self.physical_condition['IsDown'] = True
-            self.physical_condition['IsUp'] = False
-        elif hand[9][1] > hand[12][1]:
-            self.physical_condition['IsDown'] = False
-            self.physical_condition['IsUp'] = True
-        if abs(hand[8][0] - hand[12][0]) + abs(hand[8][1] - hand[12][1]):
-            self.physical_condition['Is1&2'] = True
-        else:
-            self.physical_condition['Is1&2'] = False
+            if hand[9][1] < hand[12][1]:
+                self.physical_condition['IsDown'] = True
+                self.physical_condition['IsUp'] = False
+            elif hand[9][1] > hand[12][1]:
+                self.physical_condition['IsDown'] = False
+                self.physical_condition['IsUp'] = True
+            if abs(hand[8][0] - hand[12][0]) + abs(hand[8][1] - hand[12][1]):
+                self.physical_condition['Is1&2'] = True
+            else:
+                self.physical_condition['Is1&2'] = False
+        except:
+            print("No Hand Dectable.")
 
     def show(self):
         cv2.imshow('hands', self.img)

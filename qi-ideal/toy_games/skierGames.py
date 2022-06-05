@@ -60,7 +60,8 @@ def create_map(start, end):
         location = [col * 64 + 20, row * 64 + 20]
         if not (location in locations):
             locations.append(location)
-            type = random.choice(["tree", "flag"])
+            # add speed
+            type = random.choice(["tree", "flag", "speed"])
             if type == "tree": img = "./bg_img/skier_tree.png"
             elif type == "flag": img = "./bg_img/skier_flag.png"
             obstacle = ObstacleClass(img, location, type)
@@ -87,7 +88,7 @@ def updateObstacleGroup(map0, map1):
 
 pygame.init()
 pygame.mixer.init()
-pygame.mixer.music.load("./bg_music/bg_music.mp3")
+pygame.mixer.music.load("./bg_music/1-03. Summer.flac")
 pygame.mixer.music.set_volume(0.3)
 pygame.mixer.music.play(-1)
 screen = pygame.display.set_mode([640, 640])
@@ -104,16 +105,17 @@ obstacles = updateObstacleGroup(map0, map1)
 
 font = pygame.font.Font(None, 50)
 
-dect = gesture.gesture_monitor()
+dect = gesture.gesture_monitor(width=600, height=300)
 
 while True:
     clock.tick(30)
     dect.update()
+    dect.show()
     if dect.is_left():
         speed = skier.turn(-1)
     elif dect.is_right():
         speed = skier.turn(1)
-    '''    
+    #'''
     for event in pygame.event.get():
         if event.type == pygame.QUIT: sys.exit()
         if event.type == pygame.KEYDOWN:
@@ -121,7 +123,7 @@ while True:
                 speed = skier.turn(-1)
             elif event.key == pygame.K_RIGHT:
                 speed = skier.turn(1)
-    '''
+    #'''
     skier.move(speed)
     map_position += speed[1]
 
@@ -157,3 +159,5 @@ while True:
 
     score_text = font.render("Score: " + str(points), 1, (0, 0, 0))
     animate()
+
+dect.quit()
