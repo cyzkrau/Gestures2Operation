@@ -1,9 +1,6 @@
-from ast import ImportFrom
-from sre_constants import RANGE_UNI_IGNORE
 from time import time
 import pygame, sys, random
 
-from sympy import li
 import gesture
 import cv2
 import os

@@ -1,5 +1,4 @@
 import cv2
-from cv2 import RETR_LIST
 import cvzone
 from cvzone.HandTrackingModule import HandDetector
 
