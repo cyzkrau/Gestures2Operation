@@ -33,7 +33,7 @@ class HandDetector:
         self.fingers = []
         self.lmList = []
 
-    def findHands(self, img, draw=True, flipType=True):
+    def findHands(self, img, draw=True, flipType=True, text=['left', 'right']):
         """
         Finds hands in a BGR image.
         :param img: Image to find the hands in.
@@ -76,6 +76,7 @@ class HandDetector:
                         myHand["type"] = "Right"
                 else:
                     myHand["type"] = handType.classification[0].label
+                nowtext = text[0] if myHand['type'] == 'Left' else text[1]
                 allHands.append(myHand)
 
                 # draw
@@ -85,7 +86,7 @@ class HandDetector:
                     cv2.rectangle(img, (bbox[0] - 20, bbox[1] - 20),
                                   (bbox[0] + bbox[2] + 20, bbox[1] + bbox[3] + 20),
                                   (255, 0, 255), 2)
-                    cv2.putText(img, myHand["type"], (bbox[0] - 30, bbox[1] - 30), cv2.FONT_HERSHEY_PLAIN,
+                    cv2.putText(img, nowtext, (bbox[0] - 30, bbox[1] - 30), cv2.FONT_HERSHEY_PLAIN,
                                 2, (255, 0, 255), 2)
         if draw:
             return allHands, img
