@@ -1,9 +1,5 @@
-## The Virtual Interfare:
-requirements:
+Run 
+```bash
+python gesture_geo.py
 ```
-pip install cvzone mediapipe opencv 
-```
-Run
-```
-python3 gesture_geo.py
-```
+after installing dependencies. 

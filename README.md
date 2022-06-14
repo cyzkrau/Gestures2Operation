@@ -1,14 +1,16 @@
 # Gestures2Operation
 
-It's our Computer Graphics final project. 
+It's our Computer Graphics final project. There are 5 applications of gesture-operation. Here is [video](https://www.bilibili.com/video/BV1tT41157Kq?pop_share=1&vd_source=c567eb8bca008ec5fd0020973414e9c4). 
 
-We want to convert gestures(from camera) to keyboard operation. 
+All codes are based on x86 Python. Run
+```bash
+pip install requirements.txt
+```
+to install dependencies. 
 
-Hello world!
+## Mediapipe
 
-### Mediapipe
-
-Our detection part is made in use of `madiapipe`, a frame work to dect human working of google.
+Our detection part is made in use of `mediapipe`, a frame work to dect human working of google.
 
 Its data is like this.(the data: hand).
 
@@ -51,18 +53,14 @@ Its data is like this.(the data: hand).
 
 ![](./img/example.png)
 
-### TODO:
+### demos
 
-1. give a compact GUI interaction for  games, presentations, 3d interaction, desktop control, etc.
+There are 5 demos
 
-1. Train the data from finger into gesture recongnition, with utility of mathematical knowledges like discrete curvature.(离散曲率).
+- [Virtual Keyboard](1-virtual_keyboard)
+- [Virtual Draw](2-virtual_draw)
+- [Virtual Blocks](3-virtual_blocks)
+- [Control 2048 Game](4-2048Game)
+- [Play Skier Game](5-skierGames)
 
-
-### Depdence:
-
-Linux:
-pyautogui: 
-```
-NOTE: You must install tkinter on Linux to use MouseInfo. Run the following: sudo apt-get install python3-tk python3-dev
-
-```
+See more details in their own `README.md` and report in `./report/report.pdf`. 

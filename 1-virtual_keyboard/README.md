@@ -1,5 +1,5 @@
-## 
-Requirements
+Run 
+```bash
+python gesture_key.py
 ```
-pip install cvzone mediapipe opencv pynput
-```
+after installing dependencies. 

@@ -1,8 +1,5 @@
-Requirements:
+Run 
+```bash
+python draw.py
 ```
-	pip install opencv mediapipe pyautogui
-```
-Run:
-```
-	python3 draw.py
-```
+after installing dependencies. 

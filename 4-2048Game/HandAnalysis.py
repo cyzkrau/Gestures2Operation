@@ -53,7 +53,8 @@ class HandAnalysis:
             if np.linalg.norm(speed) < 10:
                 return 0
             diff = diff - self.NormalState[str(hand_index)]
-            if np.linalg.norm(diff) < 100:
+            # print(np.linalg.norm(diff))
+            if np.linalg.norm(diff) < 40:
                 return 0
             ind_speed = 0 if abs(speed[0]) > abs(speed[1]) else 1
             ind_state = 0 if abs(diff[0]) > abs(diff[1]) else 1

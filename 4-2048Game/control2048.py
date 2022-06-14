@@ -6,7 +6,7 @@ import time
 
 if __name__ == '__main__':
     pg.PAUSE = 0.005
-    dect = HandAnalysis(6)
+    dect = HandAnalysis(2)
     cap = cv2.VideoCapture(0)
     c = time.time()
     drag = True
@@ -36,6 +36,7 @@ if __name__ == '__main__':
             pasm = newm
             continue
         pasm = newm
+        # pg.typewrite(ans[int(pasm)-1]+"\n")
         pg.press(ans[int(pasm)-1])
         # print(ans[int(pasm)-1])
     cap.release()
